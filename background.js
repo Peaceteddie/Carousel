@@ -108,15 +108,27 @@ function Main(refetch = false) {
   }
 
   function FetchImages(srcset) {
-    let lastsize;
-    lastsize = srcset.split(",");
-    lastsize = lastsize.slice(-1);
-    lastsize = lastsize[0].split(" ");
+    let srcs = srcset.split(", ");
+    let widestSrc = null;
 
-    if (lastsize) {
-      let src = lastsize.length > 2 ? lastsize[1] : lastsize[0];
-      MakeImage(src);
-    }
+    srcs.forEach((src) => {
+      let srcArr = src.split(" ");
+      let srcWidth = srcArr.reduce((a, b) => {
+        if (b.includes(":")) return a;
+        b = b.replace(/\D/g, "");
+        return a > b ? a : b;
+      });
+
+      if (!widestSrc || srcWidth > widestSrc.width) {
+        widestSrc = {
+          width: srcWidth,
+          src: srcArr[0],
+        };
+      }
+    });
+
+    if (!widestSrc) return;
+    MakeImage(widestSrc.src);
   }
 
   function FetchImage(element) {
@@ -146,7 +158,8 @@ function Main(refetch = false) {
         };
     image.onload = () => {
       loaded++;
-      if (image.naturalWidth > 500 || image.naturalHeight > 500)
+      console.log(image.naturalWidth, image.naturalHeight);
+      if (image.naturalWidth > 400 || image.naturalHeight > 400)
         checked.push(image);
       else rejected++;
     };
