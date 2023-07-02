@@ -108,27 +108,24 @@ function Main(refetch = false) {
   }
 
   function FetchImages(srcset) {
-    let srcs = srcset.split(", ");
+    const srcs = srcset.split(", ");
     let widestSrc = null;
 
-    srcs.forEach((src) => {
-      let srcArr = src.split(" ");
-      let srcWidth = srcArr.reduce((a, b) => {
-        if (b.includes(":")) return a;
-        b = b.replace(/\D/g, "");
-        return a > b ? a : b;
-      });
+    for (const src of srcs) {
+      const [srcPath, srcWidth] = src.split(" ");
+      const width = parseInt(srcWidth.replace(/\D/g, ""), 10);
 
-      if (!widestSrc || srcWidth > widestSrc.width) {
+      if (!widestSrc || width > widestSrc.width) {
         widestSrc = {
-          width: srcWidth,
-          src: srcArr[0],
+          width,
+          src: srcPath,
         };
       }
-    });
+    }
 
-    if (!widestSrc) return;
-    MakeImage(widestSrc.src);
+    if (widestSrc) {
+      MakeImage(widestSrc.src);
+    }
   }
 
   function FetchImage(element) {
