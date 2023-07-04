@@ -111,6 +111,7 @@ function Main(refetch = false) {
     const srcs = srcset.split(", ");
     let widestSrc = null;
 
+    if (srcs.length < 2) return;
     for (const src of srcs) {
       const [srcPath, srcWidth] = src.split(" ");
       const width = parseInt(srcWidth.replace(/\D/g, ""), 10);
