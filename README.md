@@ -1,0 +1,1 @@
+Its not perfect, I don't know the amount of pictures to wait for until i have parsed them so I eagerly start counting them and hoping ill will have processed them all before the gallery builder catches up
