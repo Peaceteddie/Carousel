@@ -1,0 +1,58 @@
+body {
+    width: 350px;
+    padding: 15px;
+}
+
+#toast-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.toast {
+    max-width: 350px;
+    padding: 10px 15px;
+    color: #fff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.success {
+    background-color: rgba(40, 167, 69, 0.9);
+}
+
+.toast.error {
+    background-color: rgba(220, 53, 69, 0.9);
+}
+
+.container {
+    width: 450px;
+    padding: 20px;
+}
+
+.setting {
+    width: 100%;
+}
+
+.form-control,
+.form-range {
+    width: 100%;
+}
+
+.slider-container {
+    position: relative;
+}
+
+.slider-value {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-size: 0.8em;
+}

@@ -1,35 +1,51 @@
 {
 	"manifest_version": 3,
-	"name": "Picture Carousel",
-	"description": "Creates a carousel of all available pictures.",
+	"name": "Image Gallery Extension",
 	"version": "1.0",
+	"description": "An extension to create image galleries from web pages",
+	"permissions": [
+		"activeTab",
+		"contextMenus",
+		"scripting",
+		"storage",
+		"tabs"
+	],
+	"host_permissions": [
+		"http://*/*",
+		"https://*/*"
+	],
+	"background": {
+		"service_worker": "dist/background.js",
+		"type": "module"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js": [
+				"dist/content.js"
+			]
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": [
+				"dist/swiper-bundle.min.css",
+				"dist/swiper-bundle.min.js"
+			],
+			"matches": [
+				"<all_urls>"
+			]
+		}
+	],
+	"action": {
+		"default_popup": "src/popup/popup.html"
+	},
 	"icons": {
 		"16": "images/icon-16.png",
 		"32": "images/icon-32.png",
 		"48": "images/icon-48.png",
 		"128": "images/icon-128.png"
-	},
-	"content_scripts": [
-		{
-			"id": "Swiper",
-			"css": ["node_modules/swiper/swiper-bundle.css"],
-			"js": ["node_modules/swiper/swiper-bundle.js"],
-			"persistAcrossSessions": false,
-			"matches": ["<all_urls>"],
-			"runAt": "document_start"
-		}
-	],
-	"background": {
-		"service_worker": "background.js",
-		"type": "module"
-	},
-	"action": {
-		"default_icon": {
-			"16": "images/icon-16.png",
-			"32": "images/icon-32.png",
-			"48": "images/icon-48.png",
-			"128": "images/icon-128.png"
-		}
-	},
-	"permissions": ["activeTab", "contextMenus", "scripting"]
+	}
 }

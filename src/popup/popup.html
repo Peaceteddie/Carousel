@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Settings</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body class="container">
+    <div id="toast-container"></div>
+    <h1 class="mb-4">Extension Settings</h1>
+    <form id="settingsForm">
+        <div class="mb-3">
+            <label for="similarityScore" class="form-label">Similarity Score: <span id="similarityScoreValue"></span></label>
+            <input type="range" class="form-range" id="similarityScore" min="0" max="100" step="1" value="15">
+        </div>
+        <div class="mb-3">
+            <label for="rateLimitSlider" class="form-label">Rate Limit: <span id="rateLimitValue"></span> ms</label>
+            <input type="range" class="form-range" id="rateLimitSlider" min="0" max="5000" step="100" value="800">
+        </div>
+        <div class="mb-3">
+            <label for="maxDepth" class="form-label">Max Depth</label>
+            <input type="number" class="form-control" id="maxDepth" min="1" max="10" value="1">
+        </div>
+        <div class="mb-3">
+            <label for="minImageSize" class="form-label">Min Image Size (px)</label>
+            <input type="number" class="form-control" id="minImageSize" min="100" max="5000" value="1000">
+        </div>
+        <div class="mb-3">
+            <label for="maxConcurrentFetches" class="form-label">Max Concurrent Fetches</label>
+            <input type="number" class="form-control" id="maxConcurrentFetches" min="1" max="100" value="3">
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" id="saveSettings">Save Settings</button>
+            <button type="button" class="btn btn-success" id="executeAndProcess">Execute and Process</button>
+            <button type="button" class="btn btn-danger" id="cancelProcessImages">Cancel Processing</button>
+        </div>
+    </form>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../dist/popup.js" type="module"></script>
+</body>
+
+</html>

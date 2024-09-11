@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "mySettingKey": {
+            "type": "string",
+            "description": "Description of my setting"
+        }
+    }
+}
