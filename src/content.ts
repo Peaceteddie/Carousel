@@ -11,6 +11,7 @@ import { updateProgressBar } from './utils';
 
 const state: State = {
     dupPics: new Set<string>(),
+    emphasis: "",
     excludePatterns: config.DEFAULT_EXCLUDE_PATTERNS,
     fetchCount: 0,
     finishedLinks: 0,
@@ -34,7 +35,6 @@ const state: State = {
 
 const resetState = (): void => {
     Object.assign(state, {
-        processedUrls: new Set<string>(),
         dupPics: new Set<string>(),
         fetchCount: 0,
         finishedLinks: 0,
@@ -42,6 +42,7 @@ const resetState = (): void => {
         isProcessing: false,
         loaded: 0,
         loading: 0,
+        processedUrls: new Set<string>(),
         totalLinks: 0
     });
     if (state.galleryContainer) {

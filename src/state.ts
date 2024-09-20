@@ -10,6 +10,7 @@ export interface FetchQueueItem {
 
 export interface State {
     dupPics: Set<string>;
+    emphasis: string;
     excludePatterns: string[];
     fetchCount: number;
     finishedLinks: number;
@@ -33,6 +34,7 @@ export interface State {
 
 const state: State = {
     dupPics: new Set<string>(),
+    emphasis: "",
     excludePatterns: config.DEFAULT_EXCLUDE_PATTERNS,
     fetchCount: 0,
     finishedLinks: 0,

@@ -1,11 +1,16 @@
 import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Keyboard } from "swiper/modules";
 import { getState, State } from "./state";
 import { generateHash } from "./utils";
 
 let swiperInstance: Swiper | null = null;
 
 export const createGalleryContainer = (): HTMLDivElement => {
+    const existingOverlay = document.getElementById('ai-image-gallery-overlay');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+
     const overlay = document.createElement('div');
     overlay.id = 'ai-image-gallery-overlay';
     overlay.className = 'gallery-overlay';
@@ -46,7 +51,8 @@ export const createGalleryContainer = (): HTMLDivElement => {
 
 export const initializeSwiper = (galleryContainer: HTMLElement): Swiper | null => {
     if (swiperInstance) {
-        return swiperInstance;
+        swiperInstance.destroy(true, true);
+        swiperInstance = null;
     }
 
     try {
@@ -57,7 +63,7 @@ export const initializeSwiper = (galleryContainer: HTMLElement): Swiper | null =
         }
 
         swiperInstance = new Swiper(galleryContainer, {
-            modules: [Navigation, Pagination],
+            modules: [Navigation, Pagination, Keyboard],
             loop: false,
             pagination: {
                 el: '.swiper-pagination',
@@ -70,6 +76,10 @@ export const initializeSwiper = (galleryContainer: HTMLElement): Swiper | null =
             centeredSlides: true,
             spaceBetween: 0,
             initialSlide: 0,
+            keyboard: {
+                enabled: true,
+                onlyInViewport: false,
+            },
         });
 
         addGalleryStyles();
@@ -81,7 +91,13 @@ export const initializeSwiper = (galleryContainer: HTMLElement): Swiper | null =
 };
 
 const addGalleryStyles = (): void => {
+    const existingStyle = document.querySelector('style#gallery-styles');
+    if (existingStyle) {
+        existingStyle.remove();
+    }
+
     const style = document.createElement('style');
+    style.id = 'gallery-styles';
     style.textContent = `
         #ai-image-gallery-overlay {
             position: fixed;
@@ -175,7 +191,7 @@ const toggleGalleryVisibility = (state: State, visible: boolean): void => {
         state.isGalleryVisible = visible;
 
         if (visible) {
-            document.addEventListener('keydown', handleEscapeKey);
+            addGalleryEventListeners(state);
             if (!state.swiper && state.galleryContainer) {
                 state.swiper = initializeSwiper(state.galleryContainer);
             }
@@ -184,7 +200,7 @@ const toggleGalleryVisibility = (state: State, visible: boolean): void => {
                 state.swiper.slideTo(0, 0);
             }
         } else {
-            document.removeEventListener('keydown', handleEscapeKey);
+            removeGalleryEventListeners();
         }
     } else {
         console.error('Gallery overlay not found');
@@ -221,16 +237,29 @@ export const setGalleryVisibility = (state: State, visible: boolean): void => {
 
 const addGalleryEventListeners = (state: State): void => {
     document.addEventListener('keydown', handleEscapeKey);
+    document.addEventListener('keydown', handleArrowKeys);
 };
 
 const removeGalleryEventListeners = (): void => {
     document.removeEventListener('keydown', handleEscapeKey);
+    document.removeEventListener('keydown', handleArrowKeys);
 };
 
 const handleEscapeKey = (event: KeyboardEvent): void => {
     if (event.key === 'Escape') {
         const state = getState();
         hideGallery(state as unknown as State);
+    }
+};
+
+const handleArrowKeys = (event: KeyboardEvent): void => {
+    const state = getState();
+    if (state.swiper) {
+        if (event.key === 'ArrowLeft') {
+            state.swiper.slidePrev();
+        } else if (event.key === 'ArrowRight') {
+            state.swiper.slideNext();
+        }
     }
 };
 

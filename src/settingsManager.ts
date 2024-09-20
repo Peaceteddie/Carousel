@@ -4,6 +4,7 @@ import { config } from './config';
 export class SettingsManager {
   private defaultSettings: State = {
     dupPics: new Set<string>(),
+    emphasis: "",
     excludePatterns: config.DEFAULT_EXCLUDE_PATTERNS,
     fetchCount: 0,
     finishedLinks: 0,
